@@ -24,15 +24,17 @@ function MyPromise(executor) {
 }
 
 MyPromise.prototype.then = function(onResolved, onRejected) {
+  let promise2
+
   if (this.status === 'pending') {
     this.resolvedCallbacks.push(onResolved)
     this.rejectedCallbacks.push(onRejected)
   }
-  // 如果是成功状态直接成功的回调函数
+
   if (this.status === 'fulfilled') {
     onResolved(this.data)
   }
-  // 如果是失败状态直接调失败的回调函数
+
   if (this.status === 'rejected') {
     onRejected(this.reason)
   }
