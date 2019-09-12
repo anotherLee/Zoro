@@ -27,7 +27,7 @@ promise1.then(function(res) {
 以上是我们使用Promise时经常写的代码，从这些代码来看，我们可以得到以下信息：
 
 - Promise是一个可以new的构造函数
-- 它在构造实例，**也就是new的时候接收一个函数作为参数**，我们先把这个函数叫做executor
+- 它在构造实例，**也就是new的时候接收一个函数作为参数** ，我们先把这个函数叫做executor
 - Promise有一个名为then的实例方法
 
 从这些条件中，我们可以对我们自己的MyPromise作出以下的实现：
@@ -47,7 +47,7 @@ MyPromise.prototype.then = function() {
 
 #### 三、实例化时传递的参数executor
 
-从上面使用Promise的常规代码中，我们可以知道，executor是一个函数，那接下来要明确一件事：**executor是由使用这个Promise的人实现，并由Promise在构造时调用**。大概就是这样：
+从上面使用Promise的常规代码中，我们可以知道，executor是一个函数，那接下来要明确一件事：**executor是由使用这个Promise的人实现，并由Promise在构造时调用** 。大概就是这样：
 
 ```javascript
 function MyPromise(executor) {
@@ -67,7 +67,7 @@ function executor(resolve, reject) {
 let promise1 = new MyPromise(executor)
 ```
 
-根据使用经验，使用者在写executor时候，会有两个形参resolve和reject，同时，会在适当的时候调用resolve和reject，所以，**resolve和reject都是函数，而且都是在promise内部实现。**所以，**我们要实现的MyPromise应该包含resolve和reject方法的实现，并在调用时作为实参传递给executor**。
+根据使用经验，使用者在写executor时候，会有两个形参resolve和reject，同时，会在适当的时候调用resolve和reject，所以，**resolve和reject都是函数，而且都是在promise内部实现。**所以，**我们要实现的MyPromise应该包含resolve和reject方法的实现，并在调用时作为实参传递给executor** 。
 
 ```javascript
 function MyPromise(executor) {
@@ -89,7 +89,7 @@ let promise1 = new MyPromise(function(resolve, reject) {
 
 其实，在MyPromise内部实现resolve和reject函数的时候不一定叫resolve或者reject，叫a、b甚至阿猫阿狗也行，只要在executor执行的时候传递给它就行。**因为只有这样，使用者在写executor具体内容的时候，可以通过executor的形参拿到它并使用。**
 
-所以，**resolve和reject函数由我们，也就是实现这个MyPromise的人实现，而由使用这个MyPromise的人调用的。**厘清这一点很重要。
+所以，**resolve和reject函数由我们，也就是实现这个MyPromise的人实现，而由使用这个MyPromise的人调用的。** 厘清这一点很重要。
 
 现在，我们实现Promise的代码如下：
 
@@ -120,7 +120,7 @@ MyPromise.prototype.then = function() {
 
 之所以会有这三种状态，是因为我们通常用Promise来处理异步操作，而异步操作的结果根据情况可能成功可能失败。
 
-一个Promise在实例化的时候默认是`pending`状态，那么它的状态由谁来改变？答案是由resolve或者reject这两个函数来改变。**当resolve或者reject函数调用时，resolve会把Promise实例由`pending`状态更改为`fulfilled`成功状态，reject函数会把`pending`状态更改为`rejected`状态**。到这里，resolve和reject这两兄弟的第一个功能就清楚了。
+一个Promise在实例化的时候默认是`pending`状态，那么它的状态由谁来改变？答案是由resolve或者reject这两个函数来改变。**当resolve或者reject函数调用时，resolve会把Promise实例由`pending`状态更改为`fulfilled`成功状态，reject函数会把`pending`状态更改为`rejected`状态** 。到这里，resolve和reject这两兄弟的第一个功能就清楚了。
 
 但是，要实现这个功能，就需要在我们的MyPromise里先定义一个状态，然后在resolve和reject里更改
 
@@ -158,7 +158,7 @@ MyPromise.prototype.then = function() {
 }
 ```
 
-上面的代码还有一个问题，根据规范，**如果一个Promise实例状态改变，就会被固定住，以后它的状态就再也不会更改了。**也就是说，如果一个Promise实例由`pending`状态变成`fulfilled`状态，就不能再变回`pending`或者`rejected`了。但是我们这个这个不行，你可以把下面的代码粘到浏览器里运行，就会发现问题。
+上面的代码还有一个问题，根据规范，**如果一个Promise实例状态改变，就会被固定住，以后它的状态就再也不会更改了。** 也就是说，如果一个Promise实例由`pending`状态变成`fulfilled`状态，就不能再变回`pending`或者`rejected`了。但是我们这个这个不行，你可以把下面的代码粘到浏览器里运行，就会发现问题。
 
 ```javascript
 function MyPromise(executor) {
@@ -221,7 +221,7 @@ let promise1 = new MyPromise(function(resolve, reject) {
 
 接下来，我们实现resolve和reject的第二个功能。
 
-有Promise使用经验的小伙伴肯定早就知道：**我们在调用resolve或者reject方法时一般会给它传值，而这个值和then方法的实现息息相关**。我们先看一下chrome使用Promise的例子：
+有Promise使用经验的小伙伴肯定早就知道：**我们在调用resolve或者reject方法时一般会给它传值，而这个值和then方法的实现息息相关。** 我们先看一下chrome使用Promise的例子：
 
 ```javascript
 let promise1 = new Promise(function(resolve, reject) {
@@ -242,7 +242,7 @@ promise1.then(function(res) { // 调用resolve传过来的值会被这个函数�
 }) 
 ```
 
-从这个例子里，我们可以发现，**resolve和reject调用时传递过来的值，会被then方法执行时传递的两个函数分别作为参数拿到。**这里我们知道，resolve和reject执行时传过来的值一定被存储起来了，当then方法执行时传递的两个函数在某个时机拿到了它们并执行。
+从这个例子里，我们可以发现，**resolve和reject调用时传递过来的值，会被then方法执行时传递的两个函数分别作为参数拿到。** 这里我们知道，resolve和reject执行时传过来的值一定被存储起来了，当then方法执行时传递的两个函数在某个时机拿到了它们并执行。
 
 所以，resolve和reject函数的第二个功能也呼之欲出：**将调用时的值存储起来，后面then方法里传递的两个函数会使用它们。**
 
@@ -394,7 +394,7 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
 }
 ```
 
-**请注意，以上的代码都是基于处理异步代码，也就是then方法会早于resolve或者reject执行。**所以then里还需要做一步判断，即当前promise为pending状态时，再把回调push存放到相应的地方。
+**请注意，以上的代码都是基于处理异步代码，也就是then方法会早于resolve或者reject执行。** 所以then里还需要做一步判断，即当前promise为pending状态时，再把回调push存放到相应的地方。
 
 ```javascript
 function MyPromise(executor) {
@@ -450,7 +450,7 @@ promise.then(function(res) {
 
 这个例子在同一个Promise实例上then了两次，注册了两次函数。当resolve执行的时候，会把then注册的两个函数都执行掉。
 
-还有，你可能问，现在我们的Promise都是处理异步的情况，如果是**同步的情况怎么办呢？**嗯，这个就是接下来要说的。
+还有，你可能问，现在我们的Promise都是处理异步的情况，如果是**同步的情况怎么办呢？** 嗯，这个就是接下来要说的。
 
 
 
@@ -458,7 +458,7 @@ promise.then(function(res) {
 
 我们通常使用Promise是用来处理异步的情况，我们的MyPromise写到现在也都是基于处理异步这个前提。实际上，Promise也是可以处理同步状况的，而且非常简单。
 
-如果你还记得前面有关Promise执行序列讲解的话，应该还记得，**异步时then方法是先于resolve或者reject执行的，而同步时then方法是在resolve或者reject之后执行的。**请看下面的例子：
+如果你还记得前面有关Promise执行序列讲解的话，应该还记得，**异步时then方法是先于resolve或者reject执行的，而同步时then方法是在resolve或者reject之后执行的。** 请看下面的例子：
 
 ```javascript
 let promise = new Promise(function(resolve, reject){
