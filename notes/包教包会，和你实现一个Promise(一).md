@@ -63,7 +63,7 @@ function executor(resolve, reject) {
 let promise1 = new MyPromise(executor)
 ```
 
-根据使用经验，使用者在写executor时候，会有两个形参resolve和reject，同时，会在适当的时候调用resolve和reject，所以，**resolve和reject都是函数，而且都是在promise内部实现。**所以，**我们要实现的MyPromise应该包含resolve和reject方法的实现，并在调用时作为实参传递给executor** 。
+根据使用经验，使用者在写executor时候，会有两个形参resolve和reject，同时，会在适当的时候调用resolve和reject，所以，**resolve和reject都是函数，而且都是在promise内部实现。** 所以，**我们要实现的MyPromise应该包含resolve和reject方法的实现，并在调用时作为实参传递给executor** 。
 
 ```javascript
 function MyPromise(executor) {
@@ -527,7 +527,9 @@ promise.then(res => {
 
 到这里，MyPromise的雏形完成了！嗯，只是一个雏形，它最核心的then方法我们几乎还没怎么实现。但是，如果你能完全看懂这四十几行的代码，那表示你已经离成功不远了！
 
-接下来的一篇，我们需要完成最最核心的then方法的实现了！它会在9月12日完成，感谢阅读！
+接下来的一篇，我们需要完成最最核心的then方法的实现了！请看下一篇[包教包会，带你实现一个Promise]([https://github.com/anotherLee/Zoro/blob/master/notes/%E5%8C%85%E6%95%99%E5%8C%85%E4%BC%9A%EF%BC%8C%E5%92%8C%E4%BD%A0%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AAPromise%EF%BC%88%E4%BA%8C%EF%BC%89.md](https://github.com/anotherLee/Zoro/blob/master/notes/包教包会，和你实现一个Promise（二）.md))
+
+
 
 
 
