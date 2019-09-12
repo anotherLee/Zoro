@@ -324,7 +324,7 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
   }
 
   if (this.status === 'rejected') {
-    promise2 = new Promise((resolve, reject) => {
+    promise2 = new MyPromise((resolve, reject) => {
       // 此时当前实例resolve或者reject已经执行
       let x = onRejected(this.reason)
     })
