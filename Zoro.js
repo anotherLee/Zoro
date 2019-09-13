@@ -1,4 +1,4 @@
-function MyPromise(executor) {
+function Zoro(executor) {
   this.status = 'pending'
   this.data = undefined
   this.reason = undefined
@@ -26,7 +26,7 @@ function MyPromise(executor) {
   executor(resolve, reject)
 }
 
-MyPromise.prototype.then = function (onResolved, onRejected) {
+Zoro.prototype.then = function (onResolved, onRejected) {
   if (typeof onResolved !== 'function') {
     onResolved = function(value) {
       return value
@@ -42,7 +42,7 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
   let promise2
 
   if (this.status === 'pending') {
-    promise2 = new MyPromise((resolve, reject) => {
+    promise2 = new Zoro((resolve, reject) => {
       function successFn(value) {
         try {
           let x = onResolved(value)
@@ -67,7 +67,7 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
   }
 
   if (this.status === 'fulfilled') {
-    promise2 = new MyPromise((resolve, reject) => {
+    promise2 = new Zoro((resolve, reject) => {
       setTimeout(() => {
         try {
           let x = onResolved(this.data)
@@ -80,7 +80,7 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
   }
 
   if (this.status === 'rejected') {
-    promise2 = new MyPromise((resolve, reject) => {
+    promise2 = new Zoro((resolve, reject) => {
       setTimeout(() => {
         try {
           let x = onRejected(this.reason)
@@ -97,15 +97,15 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
 
 
 // catch方法，实例方法
-MyPromise.prototype.catch = function(failFn) {
+Zoro.prototype.catch = function(failFn) {
   this.then(null, function(reason) {
     failFn(reason)
   })
 }
 
 // all方法，静态方法
-MyPromise.all = function(arr) {
-  return new MyPromise(function(resolve, reject) {
+Zoro.all = function(arr) {
+  return new Zoro(function(resolve, reject) {
     let result = []
     for(let i=0; i<result.length; ++i) {
       let currentPromise = result[i]
@@ -122,8 +122,8 @@ MyPromise.all = function(arr) {
 }
 
 // race方法，静态方法
-MyPromise.prototype.race = function(arr) {
-  return new MyPromise(function(resolve, reject) {
+Zoro.prototype.race = function(arr) {
+  return new Zoro(function(resolve, reject) {
     arr.forEach(promise => {
       promise.then(resolve, reject)
     })
@@ -131,14 +131,14 @@ MyPromise.prototype.race = function(arr) {
 }
 
 // resolve和reject，都是静态方法
-MyPromise.resolve = function(value) {
-  return new MyPromise(function(resolve, reject) {
+Zoro.resolve = function(value) {
+  return new Zoro(function(resolve, reject) {
     resolve(value)
   })
 }
 
-MyPromise.reject = function(reason) {
-  return new MyPromise(function(resolve, reject) {
+Zoro.reject = function(reason) {
+  return new Zoro(function(resolve, reject) {
     reject(reason)
   })
 }
@@ -148,7 +148,7 @@ function resolve_promise(promise2, x, resolve, reject) {
     reject(new TypeError('Chaining cycle detected for promise'))
     return
   }
-  if (x instanceof MyPromise) {
+  if (x instanceof Zoro) {
     x.then(function(v) {
       resolve_promise(promise2, v, resolve, reject)
     }, function(t) {
@@ -183,9 +183,9 @@ function resolve_promise(promise2, x, resolve, reject) {
   }
 }
 
-MyPromise.deferred = function() {
+Zoro.deferred = function() {
   let dfd = {}
-  dfd.promise = new MyPromise(function(resolve, reject) {
+  dfd.promise = new Zoro(function(resolve, reject) {
     dfd.resolve = resolve
     dfd.reject = reject
   })
@@ -193,7 +193,7 @@ MyPromise.deferred = function() {
 }
 
 try {
-  module.exports = MyPromise
+  module.exports = Zoro
 } catch (e) {
 
 }
