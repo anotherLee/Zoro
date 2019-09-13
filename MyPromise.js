@@ -95,6 +95,54 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
   return promise2
 }
 
+
+// catch方法，实例方法
+MyPromise.prototype.catch = function(failFn) {
+  this.then(null, function(reason) {
+    failFn(reason)
+  })
+}
+
+// all方法，静态方法
+MyPromise.all = function(arr) {
+  return new MyPromise(function(resolve, reject) {
+    let result = []
+    for(let i=0; i<result.length; ++i) {
+      let currentPromise = result[i]
+      currentPromise.then(function(res) {
+        result.push(res)
+        if (result.length === arr.length) {
+          resolve(result)
+        }
+      }, function(reason) {
+        reject(reason)
+      })
+    }
+  })
+}
+
+// race方法，静态方法
+MyPromise.prototype.race = function(arr) {
+  return new MyPromise(function(resolve, reject) {
+    arr.forEach(promise => {
+      promise.then(resolve, reject)
+    })
+  })
+}
+
+// resolve和reject，都是静态方法
+MyPromise.resolve = function(value) {
+  return new MyPromise(function(resolve, reject) {
+    resolve(value)
+  })
+}
+
+MyPromise.reject = function(reason) {
+  return new MyPromise(function(resolve, reject) {
+    reject(reason)
+  })
+}
+
 function resolve_promise(promise2, x, resolve, reject) {
   if (x === promise2) {
     reject(new TypeError('Chaining cycle detected for promise'))

@@ -445,13 +445,112 @@ promises-aplus-tests MyPromise.js
 
 接下来，我们实现一些非常常用的方法，这些方法虽然不在规范里，但是它们平时也有用武之地！
 
-#### 5.1 
+#### 5.1 MyPromise.all()
+
+这个方法有以下特点：
+
+- 参数：是一个MyPromise实例组成的数组
+- 返回一个MyPromise实例，不过要等到所有的参数里所有的promise状态确定
+- 参数的实例中，只要有一个是reject，返回的promise就是reject状态
+
+```javascript
+MyPromise.all = function(arr) {
+  return new MyPromise(function(resolve, reject) {
+    let result = []
+    for(let i=0; i<result.length; ++i) {
+      let currentPromise = result[i]
+      currentPromise.then(function(res) {
+        result.push(res)
+        if (result.length === arr.length) {
+          resolve(result)
+        }
+      }, function(reason) {
+        reject(reason)
+      })
+    }
+  }) 
+}
+```
+
+很好理解，就不多讲了~
 
 
 
+#### 5.2 catch()方法
+
+注意，这个方法是实例方法：
+
+- 接收一个函数作为参数
+- 当then出现问题时会执行这个函数
+
+```javascript
+MyPromise.prototype.catch = function(failFn) {
+  this.then(null, function(reason) {
+    failFn(reason)
+  })
+}
+```
+
+不多说了
 
 
 
+#### 5.3 race()方法
+
+注意，这是一个静态方法：
+
+- 接收一个promise实例构成的数组，返回一个MyPromise实例
+- 当参数里的promise第一个状态确认时，把它作为成功或者失败的值返回一个新实例
+
+```javascript
+MyPromise.race = function(arr) {
+  return new MyPromise(function(resolve, reject) {
+    arr.forEach(promise => {
+      promise.then(resolve, reject)
+    })
+  })
+}
+```
+
+完事~
+
+
+
+#### 5.4 MyPromise.resolve()
+
+直接返回一个成功状态的Promise，静态方法：
+
+```javascript
+MyPromise.resolve = function(value) {
+  return new MyPromise(function(resolve, reject) {
+    resolve(value)
+  })
+}
+```
+
+
+
+#### 5.5 MyPromise.reject()
+
+直接返回一个失败状态的Promise实例，静态方法：
+
+```javascript
+MyPromise.reject = function(reason) {
+  return new MyPromise(function(resolve, reject) {
+    reject(reason)
+  })
+}
+```
+
+**后面我们实现的这些方法是没有测试用例的哦~** 
+
+
+
+### 六、起一个帅气的名字
+
+好不容易完成了一个完全符合规范的Promise，给它起一个帅气的名字吧，就叫Zoro吧。Zoro是《海贼王》里罗罗诺亚·索隆的英文名字，**索隆在小时候曾经向古伊娜许诺要成为世界最强剑豪** ，而现在索隆刚拿到阎魔这把刀，在成为最强的道路上一路狂奔，所以我觉得这个名字再合适不过了！
+
+![Zoro](/Users/limingru/Downloads/mid_89db8fb9b7a053d.jpg)
 
 
 
