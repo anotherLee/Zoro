@@ -554,6 +554,12 @@ MyPromise.reject = function(reason) {
 
 
 
+完成的zoro地址在[这里](https://github.com/anotherLee/Zoro/blob/master/Zoro.js) ，欢迎点赞，感谢您的阅读！
+
+(完)
+
+
+
 
 
 
