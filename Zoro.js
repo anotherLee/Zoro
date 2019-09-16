@@ -107,8 +107,8 @@ Zoro.prototype.catch = function(failFn) {
 Zoro.all = function(arr) {
   return new Zoro(function(resolve, reject) {
     let result = []
-    for(let i=0; i<result.length; ++i) {
-      let currentPromise = result[i]
+    for(let i=0; i<arr.length; ++i) {
+      let currentPromise = arr[i]
       currentPromise.then(function(res) {
         result.push(res)
         if (result.length === arr.length) {
