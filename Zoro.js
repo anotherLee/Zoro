@@ -106,12 +106,14 @@ Zoro.prototype.catch = function(failFn) {
 // all方法，静态方法
 Zoro.all = function(arr) {
   return new Zoro(function(resolve, reject) {
-    let result = []
+    let result = new Array(arr.length)
+    let count = 0
     for(let i=0; i<arr.length; ++i) {
       let currentPromise = arr[i]
       currentPromise.then(function(res) {
-        result.push(res)
-        if (result.length === arr.length) {
+        result[i] = res
+        count++
+        if (count === arr.length) {
           resolve(result)
         }
       }, function(reason) {
